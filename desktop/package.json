@@ -1,0 +1,42 @@
+{
+  "name": "not-today-desktop",
+  "productName": "Not Today",
+  "version": "0.2.1",
+  "private": true,
+  "description": "Not Today desktop app (Electron wrapper around ../dist)",
+  "author": "Ahmed Hani",
+  "license": "MIT",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "node scripts/builder-nowine.cjs --win --x64"
+  },
+  "devDependencies": {
+    "electron": "^44.5.1",
+    "electron-builder": "^26.15.3",
+    "resedit": "^3.1.0"
+  },
+  "build": {
+    "appId": "net.fluxgen.nottoday",
+    "productName": "Not Today",
+    "directories": { "output": "release", "buildResources": "build" },
+    "afterPack": "scripts/set-exe-icon.cjs",
+    "files": ["main.js", "package.json", "!scripts"],
+    "extraResources": [{ "from": "../dist", "to": "dist" }],
+    "artifactName": "Not-Today-${version}-Setup.${ext}",
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "icon": "build/icon.ico",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico"
+    }
+  }
+}
